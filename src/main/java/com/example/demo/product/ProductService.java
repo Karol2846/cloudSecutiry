@@ -2,6 +2,7 @@ package com.example.demo.product;
 
 import com.example.demo.product.dto.ProductRequest;
 import com.example.demo.product.dto.ProductResponse;
+import com.example.demo.product.exception.ProductNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
