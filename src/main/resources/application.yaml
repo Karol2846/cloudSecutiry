@@ -15,3 +15,7 @@ spring:
 #      hibernate:
 #        dialect: org.hibernate.dialect.PostgreSQLDialect
 #        format_sql: true
+
+
+application-version: 1.0.0
+application-description: Cloud Security Application
