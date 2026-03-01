@@ -6,8 +6,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByCategory(ProductCategory category);
 
@@ -23,5 +24,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             @Param("category") ProductCategory category,
             @Param("maxPrice") BigDecimal maxPrice);
 
-    boolean existsByName(String name);
+    Optional<Product> findByName(String name);
 }

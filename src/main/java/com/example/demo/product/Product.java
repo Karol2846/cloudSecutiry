@@ -3,16 +3,19 @@ package com.example.demo.product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "products")
 @Data
+@Builder
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "products")
 public class Product {
 
     @Id

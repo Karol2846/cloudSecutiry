@@ -1,10 +1,11 @@
 package com.example.demo.product;
 
+import com.example.demo.product.dto.ProductRequest;
+import com.example.demo.product.dto.ProductResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 class ProductController {
 
-    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
@@ -39,39 +35,38 @@ class ProductController {
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProductResponse>> getProductsByCategory() {
-        return null;
+    public ResponseEntity<List<ProductResponse>> getProductsByCategory(@PathVariable ProductCategory category) {
+        return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam String name) {
-        return null;
+        return ResponseEntity.ok(productService.searchProducts(name));
     }
-
 
     @GetMapping("/price-range")
     public ResponseEntity<List<ProductResponse>> getProductsByPriceRange(
             @RequestParam BigDecimal minPrice,
             @RequestParam BigDecimal maxPrice) {
-    return null;
+    return ResponseEntity.ok(productService.getProductsByPriceRange(minPrice, maxPrice));
     }
-//
-//    @PostMapping
-//    public ResponseEntity<ProductResponse> createProduct(
-//            @Valid @RequestBody ProductRequest request) {
-//        return null;
-//    }
-//    @PutMapping("/{id}")
-//    public ResponseEntity<ProductResponse> updateProduct(//...
-//                                                         @PathVariable Long id,
-//                                                         @Valid @RequestBody ProductRequest request) {
-//        return null;
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-//        log.info("DELETE /api/v1/products/{} - Usuwanie produktu", id);
-//        productService.deleteProduct(id);
-//        return ResponseEntity.noContent().build();
-//    }
+
+    @PostMapping
+    public ResponseEntity<ProductResponse> createProduct(
+            @Valid @RequestBody ProductRequest request) {
+        return new ResponseEntity<>(productService.createProduct(request), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id,
+                                                         @Valid @RequestBody ProductRequest request) {
+        return new ResponseEntity<>(productService.updateProduct(id, request), HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        log.info("DELETE /api/v1/products/{} - Usuwanie produktu", id);
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
 }
