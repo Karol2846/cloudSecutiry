@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
-class ProductController {
+class ProductController implements ProductControllerApi {
 
     private final ProductService productService;
 
