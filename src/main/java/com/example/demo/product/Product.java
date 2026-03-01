@@ -28,14 +28,11 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
-    //niepusta, max 1000 znaków, definicja TEXT
     private String description;
 
-    //niepusta, minimum 0.01, złożona z cyfr
-    //format max 10 cyfr, 2 cyfry części ułamkowej
     private BigDecimal price;
 
-    //niepusta, typu wyliczeniowego (zapisywanego jako tekst)
+    @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
     //niepusta, nieujemna
