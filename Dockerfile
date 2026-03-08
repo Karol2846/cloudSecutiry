@@ -1,20 +1,15 @@
-# Etap 1: Budowanie z użyciem Gradle
-FROM gradle:8.5-jdk21-alpine AS builder
+# --- Build stage ---
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
+COPY gradle/ gradle/
+COPY gradlew build.gradle settings.gradle ./
+RUN chmod +x gradlew && ./gradlew dependencies --no-daemon || true
+COPY src/ src/
+RUN ./gradlew bootJar --no-daemon -x test
 
-# Kopiowanie plików konfiguracyjnych i kodu źródłowego
-COPY build.gradle settings.gradle ./
-COPY src ./src
-
-# Budowanie aplikacji (pomijamy testy dla przyśpieszenia)
-RUN gradle clean build -x test --no-daemon
-
-# Etap 2: Środowisko uruchomieniowe (czyste JRE)
-FROM eclipse-temurin:21-jre-alpine
+# --- Runtime stage ---
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-
-# Kopiowanie wygenerowanego pliku JAR z etapu budowania
-COPY --from=builder /app/build/libs/*.jar app.jar
-
-# ENTRYPOINT bez wystawiania portu (EXPOSE), bo host i tak nie ma mieć dostępu
+COPY --from=build /app/build/libs/*.jar app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
