@@ -1,8 +1,6 @@
 package com.example.demo.product;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,28 +13,31 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
-public class Product {
+@Table(name = "cars")
+public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required")
-    @Size(min = 2, max = 100,
-            message = "Name must have between 2 and 100 characters")
     @Column(nullable = false)
-    private String name;
-
-    private String description;
-
-    private BigDecimal price;
+    private String model;
 
     @Enumerated(EnumType.STRING)
-    private ProductCategory category;
+    @Column(nullable = false)
+    private CarBrand brand;
 
-    //niepusta, nieujemna
-    private Integer stockQuantity;
+    @Column(nullable = false)
+    private Integer year;
+
+    @Column(nullable = false)
+    private Integer mileage;
+
+    @Column(nullable = false)
+    private String color;
+
+    @Column(nullable = false)
+    private BigDecimal price;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
