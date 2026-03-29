@@ -6,29 +6,10 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: cloud
-    networks:
-      - internal_net
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-  app:
-    build:
-      context: .
-    container_name: spring_app
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/cloud
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-    networks:
-      - internal_net
     ports:
-      - "8080:8080"
-    depends_on:
-      - db
-
-networks:
-  internal_net:
-    driver: bridge
+      - "5432:5432"
 
 volumes:
   pgdata:
