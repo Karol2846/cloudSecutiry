@@ -1,4 +1,4 @@
-package com.example.demo.user;
+package com.example.demo.security;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,8 +14,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,7 +28,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User {
+class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,4 +67,34 @@ public class User {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return Boolean.TRUE.equals(accountNonExpired);
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return Boolean.TRUE.equals(accountNonLocked);
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return Boolean.TRUE.equals(credentialsNonExpired);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return Boolean.TRUE.equals(enabled);
+    }
 }

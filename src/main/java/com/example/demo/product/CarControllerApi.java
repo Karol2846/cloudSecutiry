@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Tag(name = "Cars", description = "Car catalog management API")
+@SecurityRequirement(name = "bearerAuth")
 interface CarControllerApi {
 
     @Operation(summary = "Get all cars", description = "Retrieves a list of all cars in the catalog")

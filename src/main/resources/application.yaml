@@ -16,6 +16,18 @@ spring:
 #        dialect: org.hibernate.dialect.PostgreSQLDialect
 #        format_sql: true
 
+jwt:
+  secret: Q2xvdWRTZWN1cml0eUFwcF9Kd3RTZWNyZXRfS2V5XzY0X2J5dGVzX0Zvcl9ERU1PX09OTFlfMjAyNg==
+  access-token-expiration-ms: 900000
+  refresh-token-expiration-ms: 604800000
+
+security:
+  admin:
+    email: admin@cloud.local
+    password: Admin123!
+    firstname: System
+    lastname: Admin
+
 
 application-version: 1.0.0
 application-description: Cloud Security Application
